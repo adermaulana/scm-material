@@ -1,6 +1,6 @@
 </main>
     <footer>
-        <p class="text-center">&copy; 2023 Apotek Website</p>
+        <p class="text-center">&copy; 2024 Material Bangunan</p>
     </footer>
 
     <script src="../assets/js/bootstrap.bundle.js"></script>
