@@ -205,53 +205,63 @@ if (isset($_GET['hal']) && $_GET['hal'] == "tolak") {
         </div>
 
         <div class="table-responsive col-lg-12">
-          <table id="myTable" class="table table-striped table-sm mt-3">
+        <table id="myTable" class="table table-striped table-sm mt-3">
             <thead>
-              <tr>
-                <th scope="col">No</th>
-                <th scope="col">ID Order</th>
-                <th scope="col">Alasan Return</th>
-                <th scope="col">Keterangan</th>
-                <th scope="col">Status</th>
-                <th scope="col">Tanggal Return</th>
-                <th scope="col">Action</th>
-              </tr>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">ID Order</th>
+                    <th scope="col">Alasan Return</th>
+                    <th scope="col">Keterangan</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Foto Kerusakan</th>
+                    <th scope="col">Tanggal Return</th>
+                    <th scope="col">Action</th>
+                </tr>
             </thead>
             <tbody>
-              <?php
-              $no = 1;
-              $tampil = mysqli_query($koneksi, "SELECT DISTINCT rp.*, ro.id_order
-                                                FROM return_produk rp 
-                                                JOIN detail_return dr ON rp.id_return = dr.id_return 
-                                                JOIN data_order ro ON ro.id_order = rp.id_order
-                                                JOIN data_order_item roi ON roi.id_order = ro.id_order 
-                                                ORDER BY rp.id_return DESC");
-              while ($data = mysqli_fetch_array($tampil)) :
-              ?>
-                <tr>
-                  <td><?= $no++; ?></td>
-                  <td><?= $data['id_order']; ?></td>
-                  <td><?= $data['alasan_return']; ?></td>
-                  <td><?= $data['keterangan_return']; ?></td>
-                  <td>
-                    <?php if ($data['status_return'] == 'Menunggu Konfirmasi') { ?>
-                      <span class="badge bg-warning"><?= $data['status_return'] ?></span>
-                    <?php } elseif ($data['status_return'] == 'Disetujui') { ?>
-                      <span class="badge bg-success"><?= $data['status_return'] ?></span>
-                    <?php } else { ?>
-                      <span class="badge bg-danger"><?= $data['status_return'] ?></span>
-                    <?php } ?>
-                  </td>
-                  <td><?= $data['tanggal_return']; ?></td>
-                  <td>
-                    <a href="detail.php?hal=detail&id=<?= $data['id_return']?>" class="badge bg-info border-0"><span data-feather="eye"></span></a>
-                    <a href="index.php?hal=terima&id=<?= $data['id_return']?>" class="badge bg-success border-0" onclick="return confirm('Apakah Anda yakin ingin menerima return ini?')"><span data-feather="check-circle"></span></a>
-                    <a href="index.php?hal=tolak&id=<?= $data['id_return']?>" class="badge bg-danger border-0" onclick="return confirm('Apakah Anda yakin ingin menolak return ini?')"><span data-feather="x-circle"></span></a>
-                  </td>
-                </tr>
-              <?php endwhile; ?>
+                <?php
+                $no = 1;
+                $tampil = mysqli_query($koneksi, "SELECT DISTINCT rp.*, ro.id_order
+                                                    FROM return_produk rp 
+                                                    JOIN detail_return dr ON rp.id_return = dr.id_return 
+                                                    JOIN data_order ro ON ro.id_order = rp.id_order
+                                                    JOIN data_order_item roi ON roi.id_order = ro.id_order 
+                                                    ORDER BY rp.id_return DESC");
+                while ($data = mysqli_fetch_array($tampil)) :
+                ?>
+                    <tr>
+                        <td><?= $no++; ?></td>
+                        <td><?= $data['id_order']; ?></td>
+                        <td><?= $data['alasan_return']; ?></td>
+                        <td><?= $data['keterangan_return']; ?></td>
+                        <td>
+                            <?php if ($data['status_return'] == 'Menunggu Konfirmasi') { ?>
+                                <span class="badge bg-warning"><?= $data['status_return'] ?></span>
+                            <?php } elseif ($data['status_return'] == 'Disetujui') { ?>
+                                <span class="badge bg-success"><?= $data['status_return'] ?></span>
+                            <?php } else { ?>
+                                <span class="badge bg-danger"><?= $data['status_return'] ?></span>
+                            <?php } ?>
+                        </td>
+                        <td>
+                            <?php 
+                            if (!empty($data['bukti_return'])) {
+                                echo '<img src="../../' . htmlspecialchars($data['bukti_return']) . '" alt="Bukti Return" style="max-width: 100px; max-height: 100px; object-fit: cover;">';
+                            } else {
+                                echo '<span class="text-muted">Belum ada bukti return</span>';
+                            }
+                            ?>
+                        </td>
+                        <td><?= $data['tanggal_return']; ?></td>
+                        <td>
+                            <a href="detail.php?hal=detail&id=<?= $data['id_return']?>" class="badge bg-info border-0"><span data-feather="eye"></span></a>
+                            <a href="index.php?hal=terima&id=<?= $data['id_return']?>" class="badge bg-success border-0" onclick="return confirm('Apakah Anda yakin ingin menerima return ini?')"><span data-feather="check-circle"></span></a>
+                            <a href="index.php?hal=tolak&id=<?= $data['id_return']?>" class="badge bg-danger border-0" onclick="return confirm('Apakah Anda yakin ingin menolak return ini?')"><span data-feather="x-circle"></span></a>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
             </tbody>
-          </table>
+        </table>
         </div>
       </div>
     </main>

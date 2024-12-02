@@ -226,13 +226,13 @@ if(isset($_POST['simpan'])){
     <div class="mb-3">
          <label for="id_pemasok" class="form-label">Nama Pemasok</label>
             <select class="form-select js-example-basic-single" id="id_pemasok" name="id_pemasok" required>
-            <option value="0" >Pilih</option>
+            <option value="" >Pilih</option>
             <?php
                 $no = 1;
                 $tampil = mysqli_query($koneksi, "SELECT * FROM data_pemasok");
                 while($data = mysqli_fetch_array($tampil)):
                 ?>
-                  <option value="<?= $data[0]?>"><?= $data['nama_pemasok']?></option>
+                  <option value="<?= $data['id_pemasok']?>"><?= $data['nama_pemasok']?></option>
                   <?php 
                  endwhile; 
                 ?>
