@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2024 at 08:59 AM
+-- Generation Time: Dec 02, 2024 at 10:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -54,6 +54,13 @@ CREATE TABLE `data_distributor` (
   `telepon_distributor` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `data_distributor`
+--
+
+INSERT INTO `data_distributor` (`id_distributor`, `nama_distributor`, `alamat_distributor`, `telepon_distributor`) VALUES
+(3, 'Wahyu', 'Antang', '058349');
+
 -- --------------------------------------------------------
 
 --
@@ -84,6 +91,16 @@ CREATE TABLE `data_material` (
   `gambar_material` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `data_material`
+--
+
+INSERT INTO `data_material` (`id_material`, `nama_material`, `deskripsi_material`, `harga_material`, `stok_material`, `gambar_material`) VALUES
+(24, 'Besi Panjang', 'Sebuah besi yang panjang', 100000, 325, 'uploads/besipanjang.jpg'),
+(25, 'Triplek', 'Triplek keren', 50000, 0, 'uploads/triplek.png'),
+(27, 'Paku', 'Rp.50.000/Kg', 50000, 542, 'uploads/paku.png'),
+(28, 'Semen', 'Semen Tonasa', 500000, 0, 'uploads/semen.jpg');
+
 -- --------------------------------------------------------
 
 --
@@ -102,6 +119,13 @@ CREATE TABLE `data_order` (
   `status_order` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `data_order`
+--
+
+INSERT INTO `data_order` (`id_order`, `nama_order`, `email_order`, `alamat_order`, `telepon_order`, `id_pelanggan`, `id_distributor`, `total_order`, `status_order`) VALUES
+(17, 'udin', 'udin@gmail.com', 'udin', '904394', 7, 3, '4600000', 'Selesai');
+
 -- --------------------------------------------------------
 
 --
@@ -115,6 +139,14 @@ CREATE TABLE `data_order_item` (
   `id_order` int(11) NOT NULL,
   `jumlah_order_item` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `data_order_item`
+--
+
+INSERT INTO `data_order_item` (`id_order_item`, `id_pelanggan`, `id_material`, `id_order`, `jumlah_order_item`) VALUES
+(20, 7, 24, 17, 25),
+(21, 7, 27, 17, 42);
 
 -- --------------------------------------------------------
 
@@ -132,6 +164,13 @@ CREATE TABLE `data_pelanggan` (
   `telepon_pelanggan` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `data_pelanggan`
+--
+
+INSERT INTO `data_pelanggan` (`id_pelanggan`, `username_pelanggan`, `password_pelanggan`, `nama_pelanggan`, `alamat_pelanggan`, `email_pelanggan`, `telepon_pelanggan`) VALUES
+(7, 'udin', '6bec9c852847242e384a4d5ac0962ba0', 'udin', 'udin', 'udin@gmail.com', '904394');
+
 -- --------------------------------------------------------
 
 --
@@ -146,6 +185,13 @@ CREATE TABLE `data_pemasok` (
   `telepon_pemasok` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `data_pemasok`
+--
+
+INSERT INTO `data_pemasok` (`id_pemasok`, `id_admin`, `nama_pemasok`, `alamat_pemasok`, `telepon_pemasok`) VALUES
+(21, 3, 'Tonasa', 'Jln Makassar', '0854');
+
 -- --------------------------------------------------------
 
 --
@@ -158,6 +204,13 @@ CREATE TABLE `data_pembayaran` (
   `total_pembayaran` varchar(255) NOT NULL,
   `foto_pembayaran` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `data_pembayaran`
+--
+
+INSERT INTO `data_pembayaran` (`id_pembayaran`, `id_order`, `total_pembayaran`, `foto_pembayaran`) VALUES
+(25, 17, 'Rp. 4.600.000', 'uploads/semen.jpg');
 
 -- --------------------------------------------------------
 
@@ -175,6 +228,14 @@ CREATE TABLE `data_pembelian` (
   `tanggal_pembelian` date NOT NULL,
   `total_pembelian` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `data_pembelian`
+--
+
+INSERT INTO `data_pembelian` (`id_pembelian`, `id_pemasok`, `id_material`, `id_admin`, `harga_pembelian`, `jumlah_pembelian`, `tanggal_pembelian`, `total_pembelian`) VALUES
+(19, 21, 24, 3, 100000, 300, '2024-12-02', 30000000),
+(20, 21, 27, 3, 50000, 500, '2024-12-02', 25000000);
 
 -- --------------------------------------------------------
 
@@ -205,6 +266,14 @@ CREATE TABLE `detail_return` (
   `id_detail_order` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `detail_return`
+--
+
+INSERT INTO `detail_return` (`id_detail_return`, `id_return`, `id_detail_order`) VALUES
+(6, 5, 20),
+(7, 5, 21);
+
 -- --------------------------------------------------------
 
 --
@@ -220,6 +289,13 @@ CREATE TABLE `return_produk` (
   `status_return` enum('Menunggu Konfirmasi','Disetujui','Ditolak') DEFAULT 'Menunggu Konfirmasi',
   `tanggal_return` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `return_produk`
+--
+
+INSERT INTO `return_produk` (`id_return`, `id_order`, `alasan_return`, `keterangan_return`, `bukti_return`, `status_return`, `tanggal_return`) VALUES
+(5, 17, 'Rusak', '', 'uploads/return/674d70ab836ae_besipanjang.jpg', 'Ditolak', '2024-12-02 08:32:43');
 
 --
 -- Indexes for dumped tables
@@ -339,55 +415,55 @@ ALTER TABLE `data_admin`
 -- AUTO_INCREMENT for table `data_distributor`
 --
 ALTER TABLE `data_distributor`
-  MODIFY `id_distributor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_distributor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `data_keranjang`
 --
 ALTER TABLE `data_keranjang`
-  MODIFY `id_keranjang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id_keranjang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `data_material`
 --
 ALTER TABLE `data_material`
-  MODIFY `id_material` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_material` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `data_order`
 --
 ALTER TABLE `data_order`
-  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `data_order_item`
 --
 ALTER TABLE `data_order_item`
-  MODIFY `id_order_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_order_item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `data_pelanggan`
 --
 ALTER TABLE `data_pelanggan`
-  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_pelanggan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `data_pemasok`
 --
 ALTER TABLE `data_pemasok`
-  MODIFY `id_pemasok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_pemasok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `data_pembayaran`
 --
 ALTER TABLE `data_pembayaran`
-  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_pembayaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `data_pembelian`
 --
 ALTER TABLE `data_pembelian`
-  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `data_penjualan`
@@ -399,13 +475,13 @@ ALTER TABLE `data_penjualan`
 -- AUTO_INCREMENT for table `detail_return`
 --
 ALTER TABLE `detail_return`
-  MODIFY `id_detail_return` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_detail_return` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `return_produk`
 --
 ALTER TABLE `return_produk`
-  MODIFY `id_return` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_return` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
