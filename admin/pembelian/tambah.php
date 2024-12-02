@@ -210,8 +210,8 @@ if(isset($_POST['simpan'])){
         </div>
     <div class="mb-3">
          <label for="material_id" class="form-label">Material</label>
-            <select class="form-select js-example-basic-single" id="material_id" name="material_id">
-            <option value="0" >Pilih</option>
+            <select class="form-select js-example-basic-single" id="material_id" name="material_id" required>
+            <option value="">Pilih</option>
             <?php
                 $no = 1;
                 $tampil = mysqli_query($koneksi, "SELECT * FROM data_material");
