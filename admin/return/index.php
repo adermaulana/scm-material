@@ -132,6 +132,7 @@ if (isset($_GET['hal']) && $_GET['hal'] == "tolak") {
   <link rel="stylesheet" href="../../assets/dashboard.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <link href="../DataTables/datatables.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../lightbox/css/lightbox.min.css">
 </head>
 <body>
 
@@ -246,7 +247,10 @@ if (isset($_GET['hal']) && $_GET['hal'] == "tolak") {
                         <td>
                             <?php 
                             if (!empty($data['bukti_return'])) {
+                                // Using lightbox for better image viewing
+                                echo '<a href="../../' . htmlspecialchars($data['bukti_return']) . '" data-lightbox="bukti-return" data-title="Bukti Return">';
                                 echo '<img src="../../' . htmlspecialchars($data['bukti_return']) . '" alt="Bukti Return" style="max-width: 100px; max-height: 100px; object-fit: cover;">';
+                                echo '</a>';
                             } else {
                                 echo '<span class="text-muted">Belum ada bukti return</span>';
                             }
@@ -267,7 +271,7 @@ if (isset($_GET['hal']) && $_GET['hal'] == "tolak") {
     </main>
   </div>
 </div>
-
+<script src="../../lightbox/js/lightbox-plus-jquery.js"></script>
 <script src="../DataTables/jQuery-3.7.0/jquery-3.7.0.min.js"></script>
 <script src="../DataTables/datatables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
