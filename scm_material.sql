@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 02, 2024 at 10:48 AM
+-- Generation Time: Dec 02, 2024 at 11:34 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -96,9 +96,9 @@ CREATE TABLE `data_material` (
 --
 
 INSERT INTO `data_material` (`id_material`, `nama_material`, `deskripsi_material`, `harga_material`, `stok_material`, `gambar_material`) VALUES
-(24, 'Besi Panjang', 'Sebuah besi yang panjang', 100000, 325, 'uploads/besipanjang.jpg'),
+(24, 'Besi Panjang', 'Sebuah besi yang panjang', 100000, 0, 'uploads/besipanjang.jpg'),
 (25, 'Triplek', 'Triplek keren', 50000, 0, 'uploads/triplek.png'),
-(27, 'Paku', 'Rp.50.000/Kg', 50000, 542, 'uploads/paku.png'),
+(27, 'Paku', 'Rp.50.000/Kg', 50000, 0, 'uploads/paku.png'),
 (28, 'Semen', 'Semen Tonasa', 500000, 0, 'uploads/semen.jpg');
 
 -- --------------------------------------------------------
@@ -234,8 +234,8 @@ CREATE TABLE `data_pembelian` (
 --
 
 INSERT INTO `data_pembelian` (`id_pembelian`, `id_pemasok`, `id_material`, `id_admin`, `harga_pembelian`, `jumlah_pembelian`, `tanggal_pembelian`, `total_pembelian`) VALUES
-(19, 21, 24, 3, 100000, 300, '2024-12-02', 30000000),
-(20, 21, 27, 3, 50000, 500, '2024-12-02', 25000000);
+(35, 21, 24, 3, 100000, 3, '2024-12-02', 300000),
+(36, 21, 24, 3, 100000, 10, '2024-12-02', 1000000);
 
 -- --------------------------------------------------------
 
@@ -463,7 +463,7 @@ ALTER TABLE `data_pembayaran`
 -- AUTO_INCREMENT for table `data_pembelian`
 --
 ALTER TABLE `data_pembelian`
-  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `data_penjualan`
