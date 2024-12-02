@@ -26,26 +26,59 @@ if($_SESSION['status'] != 'login'){
         }
 
 
-        //Perintah Mengubah Data
         if(isset($_POST['simpan'])){
+          // Retrieve form data
+          $nama_material = $_POST['nama_material'];
+          $deskripsi = $_POST['deskripsi'];
+          $harga = $_POST['harga'];
+      
+          // Check if a new image was uploaded
+          if ($_FILES['gambar_material']['name']) {
+              $gambar = $_FILES['gambar_material']['name'];
+              $tmp_name = $_FILES['gambar_material']['tmp_name'];
+              $error = $_FILES['gambar_material']['error'];
+              
+              // Specify the upload directory
+              $upload_dir = "../../uploads/";
+              $upload_file = $upload_dir . basename($gambar);
 
-            $simpan = mysqli_query($koneksi, "UPDATE data_material SET
-                                                nama_material = '$_POST[nama_material]',
-                                                deskripsi_material = '$_POST[deskripsi]',
-                                                harga_material = '$_POST[harga]' WHERE id_material = '$_GET[id]'");
-            
-        if($simpan){
-            echo "<script>
-                    alert('Edit data sukses!');
-                    document.location='index.php';
-                </script>";
-        } else {
-            echo "<script>
-                    alert('Edit data Gagal!');
-                    document.location='index.php';
-                </script>";
-        }
-        }
+              $lokasi_foto="uploads/" . $gambar;
+              
+              // Check for upload errors
+              if ($error == 0) {
+                  if (move_uploaded_file($tmp_name, $upload_file)) {
+                      echo "Image uploaded successfully!";
+                  } else {
+                      echo "Failed to upload image.";
+                  }
+              }
+          } else {
+              // Use the existing image if no new image is uploaded
+              $lokasi_foto = $data['gambar_material'];
+          }
+      
+          // Update database with new data
+          $simpan = mysqli_query($koneksi, "UPDATE data_material SET
+                                              nama_material = '$nama_material',
+                                              deskripsi_material = '$deskripsi',
+                                              harga_material = '$harga',
+                                              gambar_material = '$lokasi_foto'
+                                              WHERE id_material = '$_GET[id]'");
+      
+          // Success or failure message
+          if ($simpan) {
+              echo "<script>
+                      alert('Edit data sukses!');
+                      document.location='index.php';
+                    </script>";
+          } else {
+              echo "<script>
+                      alert('Edit data Gagal!');
+                      document.location='index.php';
+                    </script>";
+          }
+      }
+      
 
 ?>
 

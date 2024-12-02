@@ -29,38 +29,61 @@ if (isset($_GET['hal']) && $_GET['hal'] == "hapus") {
 
 if (isset($_GET['hal']) && $_GET['hal'] == "terima") {
   $id = mysqli_real_escape_string($koneksi, $_GET['id']);
-  
+
   // Update return status
   $update_return = mysqli_query($koneksi, "UPDATE return_produk SET status_return = 'Disetujui' WHERE id_return = '$id'");
-  
-  // Check if the return status was successfully updated
+
   if ($update_return) {
       // Retrieve the order ID associated with the return
       $query = mysqli_query($koneksi, "SELECT id_order FROM return_produk WHERE id_return = '$id'");
       $data = mysqli_fetch_assoc($query);
       $id_order = $data['id_order'];
-      
+    
       // Update order status to 'Sudah Bayar'
-      $update_order = mysqli_query($koneksi, "UPDATE data_order SET status_order = 'Sudah Bayar' WHERE id_order = '$id_order'");
-      
+      $update_order = mysqli_query($koneksi, "UPDATE data_order SET status_order = 'Selesai' WHERE id_order = '$id_order'");
+    
       if ($update_order) {
+          // Retrieve details of the returned items
+          $return_details_query = mysqli_query($koneksi, "SELECT dr.id_detail_order, roi.id_material, roi.jumlah_order_item 
+                                                         FROM detail_return dr 
+                                                         JOIN data_order_item roi ON dr.id_detail_order = roi.id_order_item 
+                                                         WHERE dr.id_return = '$id'");
+          
+          while ($return_detail = mysqli_fetch_assoc($return_details_query)) {
+              $id_material = $return_detail['id_material'];
+              $qty_return = $return_detail['jumlah_order_item'];
+              
+              // Update the stock in data_material by adding the returned quantity
+              $update_stock = mysqli_query($koneksi, "UPDATE data_material SET stok_material = stok_material + '$qty_return' WHERE id_material = '$id_material'");
+              
+              if (!$update_stock) {
+                  // If stock update fails, show an error message and stop further actions
+                  echo "<script>
+                      alert('Gagal mengupdate stok material!');
+                      document.location='index.php';
+                  </script>";
+                  exit;  // Stop further actions
+              }
+          }
+        
           echo "<script>
-          alert('Return accepted and order status updated to Sudah Bayar!');
-          document.location='index.php';
+              alert('Return accepted, order status updated to Sudah Bayar, and stock updated!');
+              document.location='index.php';
           </script>";
       } else {
           echo "<script>
-          alert('Failed to update the order status!');
-          document.location='index.php';
+              alert('Failed to update the order status!');
+              document.location='index.php';
           </script>";
       }
   } else {
       echo "<script>
-      alert('Failed to accept the return!');
-      document.location='index.php';
+          alert('Failed to accept the return!');
+          document.location='index.php';
       </script>";
   }
 }
+
 
 if (isset($_GET['hal']) && $_GET['hal'] == "tolak") {
   $id = mysqli_real_escape_string($koneksi, $_GET['id']);
@@ -126,41 +149,48 @@ if (isset($_GET['hal']) && $_GET['hal'] == "tolak") {
 
 <div class="container-fluid">
   <div class="row">
-    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+  <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-3 sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="../index.php">
+              <span data-feather="home" class="align-text-bottom"></span>
               Dashboard
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link " href="../material/index.php">
+              <span data-feather="box" class="align-text-bottom"></span>
               Material
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link " href="../penjualan/index.php">
+            <a class="nav-link" href="../penjualan/index.php">
+              <span data-feather="shopping-cart" class="align-text-bottom"></span>
               Penjualan
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../pembelian/index.php">
+              <span data-feather="shopping-bag" class="align-text-bottom"></span>
               Pembelian
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../pemasok/index.php">
+              <span data-feather="users" class="align-text-bottom"></span>
               Pemasok
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../distributor/index.php">
+              <span data-feather="users" class="align-text-bottom"></span>
               Distributor
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="../return/index.php">
+              <span data-feather="users" class="align-text-bottom"></span>
               Barang Return
             </a>
           </li>
@@ -190,12 +220,12 @@ if (isset($_GET['hal']) && $_GET['hal'] == "tolak") {
             <tbody>
               <?php
               $no = 1;
-              $tampil = mysqli_query($koneksi, "SELECT rp.*, ro.id_order
-                                                  FROM return_produk rp 
-                                                  JOIN detail_return dr ON rp.id_return = dr.id_return 
-                                                  JOIN data_order ro ON ro.id_order = rp.id_order
-                                                  JOIN data_order_item roi ON roi.id_order = ro.id_order 
-                                                  ORDER BY rp.id_return DESC");
+              $tampil = mysqli_query($koneksi, "SELECT DISTINCT rp.*, ro.id_order
+                                                FROM return_produk rp 
+                                                JOIN detail_return dr ON rp.id_return = dr.id_return 
+                                                JOIN data_order ro ON ro.id_order = rp.id_order
+                                                JOIN data_order_item roi ON roi.id_order = ro.id_order 
+                                                ORDER BY rp.id_return DESC");
               while ($data = mysqli_fetch_array($tampil)) :
               ?>
                 <tr>

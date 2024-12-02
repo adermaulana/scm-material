@@ -68,37 +68,44 @@ if(isset($_GET['hal'])){
         <ul class="nav flex-column">
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="../index.php">
+              <span data-feather="home" class="align-text-bottom"></span>
               Dashboard
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../material/index.php">
+            <a class="nav-link " href="../material/index.php">
+              <span data-feather="box" class="align-text-bottom"></span>
               Material
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../penjualan/index.php">
+              <span data-feather="shopping-cart" class="align-text-bottom"></span>
               Penjualan
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../pembelian/index.php">
+              <span data-feather="shopping-bag" class="align-text-bottom"></span>
               Pembelian
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="../pemasok/index.php">
+              <span data-feather="users" class="align-text-bottom"></span>
               Pemasok
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="../return/index.php">
-              Barang Return
+            <a class="nav-link" href="../distributor/index.php">
+              <span data-feather="users" class="align-text-bottom"></span>
+              Distributor
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../distributor/index.php">
-              Distributor
+            <a class="nav-link active" href="../return/index.php">
+              <span data-feather="users" class="align-text-bottom"></span>
+              Barang Return
             </a>
           </li>
         </ul>
@@ -162,5 +169,6 @@ if(isset($_GET['hal'])){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="../../assets/dashboard.js"></script>
 </body>
 </html>
